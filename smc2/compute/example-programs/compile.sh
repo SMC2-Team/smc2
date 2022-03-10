@@ -1,30 +1,30 @@
-# To run this script, use the following command:
-# bash compile.sh
+# To run this script, use the following command (replacing <program-name> with the program you'd like to compile):
+# bash compile.sh <program-name>
 
-# list of programs to compile
-# edit this list if you'd only like to compile specific programs
-programs=(pay-gap LR-parser h_analysis private-branching private-branching-add private-branching-mult private-branching-reuse)
+prog="$1"
 
-# compile and create input
-for prog in ${programs[@]}
-do
-   echo compiling "$prog"
-   echo picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
-   picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
-   echo creating input shares with picco-utility
-   echo picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
-   picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
-   mv "$prog".cpp ../"$prog".cpp
-done
+# compile and create the utility file
+echo compiling "$prog"
+echo picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
+picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
 
+# create input shares
+echo creating input shares with picco-utility
+echo picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
+picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
+
+# move program to the outer directory to make the executable with the library files
+mv "$prog".cpp ../"$prog".cpp
+
+# overwrite programs.mk to set up for this program
 cd ../
-# make executables
+echo "PROGRAMS +=" "$prog" >| programs.mk
+
+# make executable
 make
 
-# move things back into their proper directories
-for prog in ${programs[@]}
-do
-   mv "$prog".cpp example-programs/"$prog"/"$prog".cpp
-   mv "$prog".o example-programs/"$prog"/"$prog".o
-   mv "$prog" example-programs/"$prog"/"$prog"
-done
+# move the programs' files back into its proper directory to set up for runtime
+mv "$prog".cpp example-programs/"$prog"/"$prog".cpp
+mv "$prog".o example-programs/"$prog"/"$prog".o
+mv "$prog" example-programs/"$prog"/"$prog"
+
