@@ -3,12 +3,22 @@
 
 prog="$1"
 
-# compile and create the utility file
+# Compile and create the utility file
+# picco <program-name> <smc-config> <compiled-program> <utility-config-file>
+# <program-name>: the program you are compiling
+# <smc-config>: the SMC configuration file
+# <compiled-program>: the name to give the compiled program
+# <utility-config-file>: the name to give the utility file
 echo compiling "$prog"
 echo picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
 picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
 
-# create input shares
+# Create input shares
+# picco-utility -I <input-party-ID> <input-filename> <utility-config-file> <input-shares-name>
+# <input-party-ID>: input party ID providing the input (there can be multiple input parties, our benchmarks only use 1)
+# <input-filename>: name of the input file
+# <utility-config-file>: name of the utility file
+# <input-shares-name>: naming scheme for the input shares being created
 echo creating input shares with picco-utility
 echo picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
 picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
