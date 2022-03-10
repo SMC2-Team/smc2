@@ -36,6 +36,7 @@ We've provided a script to facilitate the process of starting the multiparty com
 ```
 $ bash run.sh <program-name>
 ```
+We do not suggest running [pb-reuse](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) with the Docker image - it may take 3+ hours to complete. All other benchmarking programs should complete fairly quickly, with the fastest ([LR-parser](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/LR-parser)) completing in under a second and the second-slowest [h_analysis](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/h_analysis) completing in under 2 minutes.  
 
 #### Obtaining Output
 We've provided a script to facilitate the process of obtaining output from output shares in [`output.sh`](https://github.com/SMC2-Team/smc2/blob/main/smc2/compute/example-programs/output.sh). The script contains comments to help you understand what is being done in various steps. 
