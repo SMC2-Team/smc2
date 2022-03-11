@@ -37,7 +37,12 @@ We've provided a script to facilitate the process of starting the multiparty com
 ```
 bash run.sh <program-name>
 ```
-We do ***not*** suggest running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) with the Docker image - it may take 3+ hours to complete. All other benchmarking programs should complete fairly quickly, with the fastest [`LR-parser`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/LR-parser)) completing in under a second and the second-slowest [`h_analysis`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/h_analysis) completing in under 2 minutes.  
+We do ***not*** suggest running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) with the Docker image - it may take 3+ hours to complete. All other benchmarking programs should complete fairly quickly, with the fastest [`LR-parser`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/LR-parser)) completing in under a second and the second-slowest [`h_analysis`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/h_analysis) completing within two minutes. You will know the program has finished running when it prints 3 times (one for each party) like so: 
+```
+Time: 0.005847
+Time: 0.002881
+Time: 0.007141
+```
 
 #### Obtaining Output
 We've provided a script to facilitate the process of obtaining output from output shares in [`output.sh`](https://github.com/SMC2-Team/smc2/blob/main/smc2/compute/example-programs/output.sh). The script contains comments to help you understand what is being done in various steps. 
@@ -62,3 +67,15 @@ You can also find the [PICCO manual](https://github.com/PICCO-Team/picco/blob/ma
 - This Docker implementation was referred to when creating the Docker for SMC<sup>2</sup>, modifying their Dockerfile and install.sh.
 - PICCO Docker Citation:
 > M. Hastings, B. Hemenway, D. Noble, and S. Zdancewic. SoK: General purpose compilers for secure multi-party computation. In IEEE Symposium on Security and Privacy (S&P), pages 1220–1237, 2019.
+
+
+## Troubleshooting
+#### The program I ran is taking longer than expected.
+Try closing the container (`ctrl+d`) and restarting the container (`docker run -it --rm smc2`).
+
+#### One of the computational parties failed.
+Occassionally a connection will drop and you need to restart the program on all parties. 
+Run `ps -u` to see which parties are still running, then kill them using their pid `kill <pid>`.
+Now the resources will be freed up to restart the program. 
+
+
