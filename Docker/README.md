@@ -5,6 +5,8 @@ Table of Contents:
 - [Troubleshooting](#troubleshooting)
 
 ## SMC<sup>2</sup> Docker
+First, you should ensure Docker is allocated at least 5GB of Memory. 
+You can confirm or modify this in Docker's preferences (Docker -> Preferences -> Resources).
 
 ### Docker Creation
 This takes a bit, but only has to be done once. It builds the Docker image and runs [`install.sh`](install.sh). 
@@ -41,7 +43,7 @@ We've provided a script to facilitate the process of starting the multiparty com
 ```
 bash run.sh <program-name>
 ```
-We do ***not*** suggest running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) with the Docker image - it may take 3+ hours to complete. All other benchmarking programs should complete fairly quickly, with the fastest [`LR-parser`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/LR-parser)) completing in under a second and the second-slowest [`h_analysis`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/h_analysis) completing within two minutes. You will know the program has finished running when it prints 3 times (one for each party) like so: 
+We do ***not*** suggest running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) with the Docker image - it may take 3+ hours to complete. All other benchmarking programs should complete fairly quickly, with the fastest [`LR-parser`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/LR-parser)) completing in under a second and the second-slowest [`h_analysis`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/h_analysis) completing within one minute. You will know the program has finished running when it prints 3 times (one for each party) like so: 
 ```
 Time: 0.005847
 Time: 0.002881
@@ -76,7 +78,9 @@ You can also find the [PICCO manual](https://github.com/PICCO-Team/picco/blob/ma
 
 ## Troubleshooting
 #### The program I ran is taking longer than expected.
-Try closing the container (`ctrl+d`) and restarting the container (`docker run -it --rm smc2`).
+- Run `ps -u` to see if the parties are all still running and computing (using CPU). If not, or if they've been running for too long, kill them using their pid `kill <pid>`.
+- Try closing the container (`ctrl+d`) and restarting the container (`docker run -it --rm smc2`).
+Before restarting, check how much memory you've allotted to Docker (Docker -> Preferences -> Resources). Increasing the memory to 5GB should speed up the runtimes of the longer running programs vs. running with the default 2GB of memory. 
 
 #### One of the computational parties failed.
 Occassionally a connection will drop and you need to restart the program on all parties. 
