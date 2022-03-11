@@ -10,8 +10,8 @@ prog="$1"
 # <compiled-program>: the name to give the compiled program
 # <utility-config-file>: the name to give the utility file
 echo compiling "$prog"
-echo picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
-picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
+echo ../bin/picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
+../bin/picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
 
 # Create input shares
 # picco-utility -I <input-party-ID> <input-filename> <utility-config-file> <input-shares-name>
@@ -20,8 +20,8 @@ picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
 # <utility-config-file>: name of the utility file
 # <input-shares-name>: naming scheme for the input shares being created
 echo creating input shares with picco-utility
-echo picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
-picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
+echo ../bin/picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
+../bin/picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
 
 # move program to the outer directory to make the executable with the library files
 mv "$prog".cpp ../"$prog".cpp

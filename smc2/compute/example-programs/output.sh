@@ -9,7 +9,7 @@ prog="$1"
 # <shares filename>: naming scheme for the output shares
 # <utility config>: name of the utility configuration file 
 # <result filename>: name to be given to the output file created
-picco-utility -O 1 "$prog"/output "$prog"/utility "$prog"/actual-output.out
+../bin/picco-utility -O 1 "$prog"/output "$prog"/utility "$prog"/actual-output.out
 
 # Compare expected output vs. actual output
 diff "$prog"/actual-output.out "$prog"/expected-output.out

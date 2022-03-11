@@ -31,4 +31,4 @@ sleep 2
 # picco-seed <runtime-config> <utility-config>
 # <runtime-config>: the runtime configuration file (same as above)
 # <utility-config>: the program's utility configuration file
-picco-seed ../runtime-config "$prog"/utility
+../bin/picco-seed ../runtime-config "$prog"/utility
