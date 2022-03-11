@@ -24,7 +24,7 @@ $ bash compile.sh <program-name>
 ```
 $ bash run.sh <program-name>
 ```
-- [`output.sh`](compile.sh): facilitates obtaining output from output shares for program `<program-name>`
+- [`output.sh`](output.sh): facilitates obtaining output from output shares for program `<program-name>`
 ```
 $ bash output.sh <program-name>
 ```
