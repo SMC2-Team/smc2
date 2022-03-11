@@ -15,4 +15,16 @@ Please note: when running these programs on the Docker image, expect runtimes 2-
 
 Each example program is given an input file (`input.txt`) and, for each program that produces output, an expected output file (`expected-output.out`).
 
-
+### Scripts
+- [`compile.sh`](compile.sh): facilitates compilation and input share creation for program `<program-name>`
+```
+$ bash compile.sh <program-name>
+```
+- [`run.sh`](run.sh): facilitates running the program `<program-name>`
+```
+$ bash run.sh <program-name>
+```
+- [`output.sh`](compile.sh): facilitates obtaining output from output shares for program `<program-name>`
+```
+$ bash output.sh <program-name>
+```
