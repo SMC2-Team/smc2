@@ -43,7 +43,9 @@ We've provided a script to facilitate the process of starting the multiparty com
 ```
 bash run.sh <program-name>
 ```
-We do ***not*** suggest running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) with the Docker image - it may take 3+ hours to complete. All other benchmarking programs should complete fairly quickly, with the fastest [`LR-parser`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/LR-parser)) completing in under a second and the second-slowest [`h_analysis`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/h_analysis) completing within one minute. You will know the program has finished running when it prints 3 times (one for each party) like so: 
+We do ***not*** suggest running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) with the Docker image unless you have increased the memory - in testing, with 6GB of memory, it takes around 14 minutes to complete. 
+
+All other benchmarking programs should complete fairly quickly, with the fastest [`LR-parser`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/LR-parser)) completing in under a second and the second-slowest [`h_analysis`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/h_analysis) completing within one minute. You will know the program has finished running when it prints 3 times (one for each party) like so: 
 ```
 Time: 0.005847
 Time: 0.002881
