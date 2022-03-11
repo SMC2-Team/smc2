@@ -1,7 +1,7 @@
 # Docker
 Table of Contents:
 - [SMC<sup>2</sup> Docker](#smc2-docker)
-- [PICCO Docker](#picco-docker)
+- [Docker Reference](#docker-reference)
 - [Troubleshooting](#troubleshooting)
 
 ## SMC<sup>2</sup> Docker
@@ -15,7 +15,7 @@ This command should be run from the outer [smc2](https://github.com/SMC2-Team/sm
 ```
 docker build -t smc2 .
 ```
-Once this is complete, you will have a Docker image with our implementation of PICCO installed, and the benchmarking programs compiled. 
+Once this is complete, you will have a Docker image with both SMC<sup>2</sup> and PICCO installed, and the benchmarking programs compiled. 
 
 ### Running Docker
 Open a running, interactive container with the Docker created in the last step.
@@ -27,9 +27,18 @@ docker run -it --rm smc2
 We've stored our benchmarking programs within [`smc2/compute/example-programs`](../smc2/compute/example-programs). 
 Each program has it's own directory, containing the program, example input, and corresponding expected output. 
 The compiled program, utility file, input shares, and executable were added during the Docker creation when `install.sh` was run.
+
+- SMC<sup>2</sup>:
 ```
 cd smc2/compute/example-programs
 ```
+
+- PICCO:
+```
+cd picco/compute/example-programs
+```
+As we have built our implementation from PICCO, compilation, running, and getting output uses the same commands and allows us to use the same scripts for both.
+
 
 #### Compiling Examples
 This step was already completed for our benchmarking programs during Docker creation, when [`install.sh`](install.sh) was ran.
@@ -44,7 +53,7 @@ We've provided a script to facilitate the process of starting the multiparty com
 ```
 bash run.sh <program-name>
 ```
-We do ***not*** suggest running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) with the Docker image unless you have increased the memory - in testing, with 6GB of memory, it takes around 14 minutes to complete. 
+Please ensure you have increased the memory allotted to Docker to 8GB before running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) - in testing the Docker, with 8GB of memory, it takes around 12 minutes to complete for SMC<sup>2</sup> and 18 minutes to complete for PICCO. If you have not increased the memory, this program will hang for hours before getting running out of space and getting stuck. 
 
 All other benchmarking programs should complete fairly quickly, with the fastest [`LR-parser`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/LR-parser)) completing in under a second and the second-slowest [`h_analysis`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/h_analysis) completing within one minute. You will know the program has finished running when it prints 3 times (one for each party) like so: 
 ```
@@ -71,7 +80,7 @@ You can also find the [PICCO manual](https://github.com/PICCO-Team/picco/blob/ma
 
 
 
-## PICCO Docker Reference
+## Docker Reference
 - The Docker implementation for PICCO found [here](https://github.com/MPC-SoK/frameworks/tree/master/picco) was referred to when creating the Docker for SMC<sup>2</sup>, modifying their Dockerfile and install.sh.
 - Citation:
 > M. Hastings, B. Hemenway, D. Noble, and S. Zdancewic. SoK: General purpose compilers for secure multi-party computation. In IEEE Symposium on Security and Privacy (S&P), pages 1220–1237, 2019.
@@ -79,9 +88,9 @@ You can also find the [PICCO manual](https://github.com/PICCO-Team/picco/blob/ma
 
 ## Troubleshooting
 #### The program I ran is taking longer than expected.
-- Run `ps -u` to see if the parties are all still running and computing (using CPU). If not, or if they've been running for too long, kill them using their pid `kill <pid>`.
+- Run `ps -u` to see if the parties are all still running and computing (using CPU). If not, or if they've been running for too long, kill them using their pid `kill <pid>`. Wait a few seconds, then restart the program.
 - Try closing the container (`ctrl+d`) and restarting the container (`docker run -it --rm smc2`).
-Before restarting, check how much memory you've allotted to Docker (Docker -> Preferences -> Resources). Increasing the memory to 5GB should speed up the runtimes of the longer running programs vs. running with the default 2GB of memory. 
+- Check how much memory you've allotted to Docker (Docker -> Preferences -> Resources). Increasing the memory to 8GB should speed up the runtimes vs. running with the default 2GB of memory. 
 
 #### One of the computational parties failed.
 Occassionally a connection will drop and you need to restart the program on all parties. 
