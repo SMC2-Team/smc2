@@ -49,6 +49,7 @@ We've provided a script to facilitate the process of obtaining output from outpu
 ```
 bash output.sh <program-name>
 ```
+This script also checks the output against the expected output. If this command runs without anything printed to the terminal, then the expected and actual output files match. 
 
 
 #### Adding Examples
