@@ -13,7 +13,7 @@ Once this is complete, you will have a Docker image with our implementation of P
 ### Running Docker
 Open a running, interactive container with the Docker created in the last step.
 ```
-$ docker run -it --rm smc2 .
+$ docker run -it --rm smc2
 ```
 
 ### Example Programs
