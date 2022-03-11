@@ -5,8 +5,9 @@ Table of Contents:
 - [Troubleshooting](#troubleshooting)
 
 ## SMC<sup>2</sup> Docker
-First, you should ensure Docker is allocated at least 5GB of Memory. 
+First, ensure Docker is allocated 8GB of Memory. 
 You can confirm or modify this in Docker's preferences (Docker -> Preferences -> Resources).
+This will allow you enough space to have both PICCO and SMC2 installed and properly run programs with both on the same Docker image. 
 
 ### Docker Creation
 This takes a bit, but only has to be done once. It builds the Docker image and runs [`install.sh`](install.sh). 
@@ -70,11 +71,9 @@ You can also find the [PICCO manual](https://github.com/PICCO-Team/picco/blob/ma
 
 
 
-## PICCO Docker
-- A docker for running PICCO can be found here: https://github.com/MPC-SoK/frameworks/tree/master/picco
-- This docker uses a previous version of PICCO as compared to the version we tested against to obtain the results shown in our paper, so results may differ slightly but still be comparable to the `local` results.
-- This Docker implementation was referred to when creating the Docker for SMC<sup>2</sup>, modifying their Dockerfile and install.sh.
-- PICCO Docker Citation:
+## PICCO Docker Reference
+- The Docker implementation for PICCO found [here](https://github.com/MPC-SoK/frameworks/tree/master/picco) was referred to when creating the Docker for SMC<sup>2</sup>, modifying their Dockerfile and install.sh.
+- Citation:
 > M. Hastings, B. Hemenway, D. Noble, and S. Zdancewic. SoK: General purpose compilers for secure multi-party computation. In IEEE Symposium on Security and Privacy (S&P), pages 1220–1237, 2019.
 
 
