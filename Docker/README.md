@@ -4,6 +4,7 @@
 
 ### Docker Creation
 This takes a bit, but only has to be done once. It builds the Docker image and runs [`install.sh`](install.sh). 
+This command should be run from the outer [smc2](https://github.com/SMC2-Team/smc2) directory.
 ```
 $ docker build -t smc2 .
 ```
