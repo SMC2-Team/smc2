@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
   make \
   python \
   nano \
-  vim
+  vim \
+  psmisc
 ADD smc2/ smc2
 ADD README.md .
 ADD /Docker/install.sh install.sh
