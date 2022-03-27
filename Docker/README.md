@@ -48,12 +48,47 @@ We've provided a script to facilitate the process of compiling a program and obt
 ```
 bash compile.sh <program-name>
 ```
+First, it calls PICCO/SMC<sup>2</sup> to compile the program containing type annotations to a C++ file using the command:
+```
+../bin/picco "$prog"/"$prog".c ../smc-config "$prog" "$prog"/utility
+```
+This command is structured as: `picco <program-name> <smc-config> <compiled-program> <utility-config-file>`. 
+Second, we create input shares using the command: 
+```
+../bin/picco-utility -I 1 "$prog"/input.txt "$prog"/utility "$prog"/input
+```
+This command is structured as: `picco-utility -I <input-party-ID> <input-filename> <utility-config-file> <input-shares-name>`. 
+Next, it moves program to the outer `compute` directory to make the executable with the library files. 
+It overwrites programs.mk to set up for making this program, and proceeds to run the makefile. 
+Then it moves the programs' .cpp, .o, and executable files back into its proper directory to set up for runtime. 
 
 
 #### Running Examples
 We've provided a script to facilitate the process of starting the multiparty computation for a single program in [`run.sh`](https://github.com/SMC2-Team/smc2/blob/main/smc2/compute/example-programs/run.sh). The script contains comments to help you understand what is being done in various steps. 
 ```
 bash run.sh <program-name>
+```
+
+First, the script starts the 3rd party, then the 2nd party, then the 1st party, with short waits in between to ensure the party starts properly before the next attempts to connect. 
+To start the computation for each party, it uses a command structured as `X <ID> <runtime-config> <priv-key-file> M K <share-file 1> ... <share-file M> <output-file 1> ... <output-file K>`.
+It then starts picco-seed (`picco-seed <runtime-config> <utility-config>`), which provides the secure seed to run the computation. 
+```
+./"$prog"/"$prog" 3 ../runtime-config ../keys/privkey3.pem 1 1 "$prog"/input3 "$prog"/output &
+sleep 2
+
+./"$prog"/"$prog" 2 ../runtime-config ../keys/privkey2.pem 1 1 "$prog"/input2 "$prog"/output &
+sleep 2
+
+./"$prog"/"$prog" 1 ../runtime-config ../keys/privkey1.pem 1 1 "$prog"/input1 "$prog"/output &
+sleep 2
+
+../bin/picco-seed ../runtime-config "$prog"/utility
+```
+
+
+We also have included a script that takes the program name and a timeout period for the script to wait to complete in [`runT.sh`](https://github.com/SMC2-Team/smc2/blob/main/smc2/compute/example-programs/run.sh). This script is used within `runBenchmarks.sh` to facilitate running all the benchmarks and ensuring that any given bemnchmarking program does not hang amd keep the script idling for hours.
+```
+bash runT.sh <program-name> <timeout>
 ```
 Please ensure you have increased the memory allotted to Docker to 8GB before running [`private-branching-reuse`](https://github.com/SMC2-Team/smc2/tree/main/smc2/compute/example-programs/private-branching-reuse) - in testing the Docker, with 8GB of memory, it takes around 12 minutes to complete for SMC<sup>2</sup> and 18 minutes to complete for PICCO. If you have not increased the memory, this program will hang for hours before getting running out of space and getting stuck. 
 
@@ -69,7 +104,12 @@ We've provided a script to facilitate the process of obtaining output from outpu
 ```
 bash output.sh <program-name>
 ```
-This script also checks the output against the expected output. If this command runs without anything printed to the terminal, then the expected and actual output files match. 
+This is run by a command structured as `picco-utility -O <output party ID> <shares filename> <utility config> <result filename>`.
+It also checks the output against the expected output. If this command runs without anything printed to the terminal, then the expected and actual output files match. 
+```
+../bin/picco-utility -O 1 "$prog"/output "$prog"/utility "$prog"/actual-output.out
+diff "$prog"/actual-output.out "$prog"/expected-output.out
+```
 
 
 #### Adding Examples
