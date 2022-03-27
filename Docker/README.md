@@ -1,6 +1,8 @@
 # Docker
 Table of Contents:
 - [SMC<sup>2</sup> Docker](#smc2-docker)
+- [Benchmark run script](#benchmark-run-script)
+- [Speedup Calculation](#speedup-calculation)
 - [Docker Reference](#docker-reference)
 - [Troubleshooting](#troubleshooting)
 
@@ -78,6 +80,42 @@ This will enable the use of the given scripts, which facilitate compilation, run
 Each script gives details about the commands being run within the script. 
 You can also find the [PICCO manual](https://github.com/PICCO-Team/picco/blob/master/picco-manual.pdf) in the main [PICCO repository](https://github.com/PICCO-Team/picco). The commands and information detailed here hold for our implementation as well.
 
+## Benchmark Run Script
+The script [runBenchmarks.sh](https://github.com/SMC2-Team/smc2/blob/main/Docker/runBenchmarks.sh) will run all of the benchmarking programs, first for SMC<sup>2</sup>, then for PICCO. It is initially set to run the programs each once, but can be set to any number of runs by editing line 2 `numRuns=1`. This script will collect the output of every run within a file, allowing easy computation of the percetage speedup using script `plot.py`.
+It should be run in the background using the command: 
+```
+bash runBenchmarks.sh &
+```
+Please ensure to run this script in the background using the above command, otherwise the programs will likely not execute properly and fail to complete. If any given program fails within the script, you can run just that program again using the following (replacing `j` at the end with the run number, i.e. 2 for the second run):
+```
+bash run.sh <program_name> > <program_namej>
+```
+Once this is complete, use the following command to move the collected console output to the correct folder for use with the plotting script.
+```
+mv <program_namej> ../../runtimes/<program_namej>
+```
+It is fairly likely that at least one program will fail when using this script. This seems to be a side effect of using Docker and having the computations limited to the resources of the container.
+
+
+
+## Speedup Calculation
+Once you have run all benchmarks and have their timings placed in the runtime folders (i.e., from using the script runBenchmarks.sh or following the behavior of runBenchmarks.sh), you can use the script [`plot.py`](https://github.com/SMC2-Team/smc2/blob/main/Docker/plot.py) to grab the timings and compute the percent speedup between SMC<sup>2</sup> and PICCO. 
+This script creates a CSV file `statsLocal.csv` to give all of the averages, standard deviation, and percentage speedup information that is computed, as well as a CSV for each program to display the runtimes obtained and the average for each run. If you have collected the timings for multiple runs, simply edit line 6 to reflect the number of runs.
+```
+numberRuns = 1
+```
+We do not plot the graphs (to our knowledge, Docker doesn't have a visual interface to view them), but include the function that would be used to do so.
+
+To run this script, use the command:
+```
+python3 plot.py
+```
+To calculate the relative speedup:
+- run average => take the average of the three times obtained for the run (one time for each party)
+- program average => take the average of all run averages for a given program
+- program standard deviation => get the standard deviation of the run averages for a given program
+- program percent speedup => PICCO program average minus SMC<sup>2</sup> program average, divided by the PICCO program average times 100
+- standard deviation => PICCO program average minus (SMC<sup>2</sup> program average minus SMC<sup>2</sup> program standard deviation), divided by PICCO program average times 100 minus percentSpeedup
 
 
 ## Docker Reference
